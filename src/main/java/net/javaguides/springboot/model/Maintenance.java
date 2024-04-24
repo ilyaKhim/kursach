@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "maintenance", schema = "uchet", catalog = "")
-public class MaintenanceEntity {
+public class Maintenance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -80,7 +80,7 @@ public class MaintenanceEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MaintenanceEntity that = (MaintenanceEntity) o;
+        Maintenance that = (Maintenance) o;
         return id == that.id && equipmentId == that.equipmentId && issuedBy == that.issuedBy && Objects.equals(createDate, that.createDate) && Objects.equals(description, that.description) && Objects.equals(performedBy, that.performedBy);
     }
 

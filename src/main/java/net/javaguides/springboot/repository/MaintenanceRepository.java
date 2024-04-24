@@ -1,11 +1,11 @@
 package net.javaguides.springboot.repository;
 
 
-import net.javaguides.springboot.model.MaintenanceEntity;
+import net.javaguides.springboot.model.Maintenance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MaintenanceRepository extends JpaRepository<MaintenanceEntity, Long> {
+public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> {
 
 }
