@@ -55,14 +55,11 @@ public class EquipmentRepository {
                 "FROM equipments e " +
                 "JOIN departments d ON e.department_id = d.id " +
                 "JOIN users u ON e.user_id = u.id";
-//        String sql = "SELECT id, eq_name, serial_number, eq_status FROM equipments";
 
-        // Add pagination
         sql += " LIMIT ? OFFSET ?";
 
         List<EquipmentDao> entities = jdbcTemplate.query(sql, new Object[]{pageable.getPageSize(), pageable.getOffset()}, rowMapper);
 
-        // Fetch total count for pagination
         String countSql = "SELECT COUNT(*) FROM equipments";
         int totalCount = jdbcTemplate.queryForObject(countSql, Integer.class);
 

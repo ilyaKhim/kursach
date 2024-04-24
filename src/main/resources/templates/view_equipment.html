@@ -16,30 +16,28 @@
 			<input type="hidden" th:field="*{id}" />
 
 			<label for="eqName">Equipment Name:</label>
-			<input type="text" th:field="*{eqName}" class="form-control mb-4 col-4"/>
+			<input th:disabled="true" type="text" th:field="*{eqName}" class="form-control mb-4 col-4"/>
 
 			<label for="serialNumber">Serial Number:</label>
-			<input type="text" th:field="*{serialNumber}" class="form-control mb-4 col-4" />
+			<input th:disabled="true" type="text" th:field="*{serialNumber}" class="form-control mb-4 col-4" />
 
 			<label for="purchaseDate">Purchase Date:</label>
-			<input type="date" th:field="*{purchaseDate}" class="form-control mb-4 col-4" />
+			<input th:disabled="true" type="date" th:field="*{purchaseDate}" class="form-control mb-4 col-4" />
 
 			<label for="warrantyExpiration">Warranty Expiration:</label>
-			<input type="date" th:field="*{warrantyExpiration}" class="form-control mb-4 col-4" />
+			<input th:disabled="true" type="date" th:field="*{warrantyExpiration}" class="form-control mb-4 col-4" />
 
 			<label for="eqStatus">Equipment Status:</label>
-			<input type="text" th:field="*{eqStatus}" class="form-control mb-4 col-4" />
+			<input th:disabled="true" type="text" th:field="*{eqStatus}" class="form-control mb-4 col-4" />
 
 			<label for="departmentId">Department ID:</label>
-			<input type="number" th:field="*{departmentId}" class="form-control mb-4 col-4" />
+			<input th:disabled="true" type="number" th:field="*{departmentId}" class="form-control mb-4 col-4" />
 
 			<label for="supplierId">Supplier ID:</label>
-			<input type="number" th:field="*{supplierId}" class="form-control mb-4 col-4" />
+			<input type="hidden" th:field="*{supplierId}" class="form-control mb-4 col-4" />
 
 			<label for="userId">User ID:</label>
-			<input type="number" th:field="*{userId}" class="form-control mb-4 col-4" />
-
-			<button type="submit" class="btn btn-info col-2">Update Equipment</button>
+			<input th:disabled="true" type="number" th:field="*{userId}" class="form-control mb-4 col-4" />
 		</div>
 	</form>
 	<hr>

@@ -52,6 +52,17 @@ public class EquipmentController {
 		model.addAttribute("equipment", equipment);
 		return "update_equipment";
 	}
+
+	@GetMapping("/viewEquipment/{id}")
+	public String viewEquipment(@PathVariable ( value = "id") long id, Model model) {
+		UserLoginInterceptor.addIsAdminToForm(model);
+		Equipment equipment = equipmentService.getEquipmentById(id);
+
+		model.addAttribute("equipment", equipment);
+		return "view_equipment";
+	}
+
+
 	
 	@GetMapping("/deleteEquipment/{id}")
 	public String deleteEmployee(@PathVariable (value = "id") long id) {
