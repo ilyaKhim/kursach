@@ -3,6 +3,7 @@ package net.javaguides.springboot.config;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -15,7 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class UserLoginInterceptor implements HandlerInterceptor {
 
-    private static final Map<String,String> authenticatedUsers = new ConcurrentHashMap<>();
+    private static final Map<String, Pair<String, Byte>> authenticatedUsers = new ConcurrentHashMap<>();
+    private static final ThreadLocal<Pair<String,Byte>> currentUser = ThreadLocal.withInitial(() -> null);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -23,16 +25,19 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                 .filter(cookie -> "userHash".equals(cookie.getName()))
                 .findAny();
 
-        if (userCookie.isEmpty() || authenticatedUsers.get(userCookie.get().getValue()).isEmpty()) {
+        if (userCookie.isEmpty() || authenticatedUsers.get(userCookie.get().getValue()) == null) {
             response.sendRedirect("/login");
             return false;
         }
+        Pair<String, Byte> authUser = authenticatedUsers.get(userCookie.get().getValue());
+        currentUser.set(authUser);
         return true;
     }
 
-    public static String addAuthenticatedUser(String userId) {
-        String userHash = generateUserHash(userId);
-        authenticatedUsers.put(userHash, userId);
+    public static String addAuthenticatedUser(int userId, byte isAdmin) {
+        String id = String.valueOf(userId);
+        String userHash = generateUserHash(id);
+        authenticatedUsers.put(userHash, Pair.of(id, isAdmin));
         return userHash;
     }
 

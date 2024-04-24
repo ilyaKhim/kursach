@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import net.javaguides.springboot.config.UserLoginInterceptor;
 import net.javaguides.springboot.model.Department;
+import net.javaguides.springboot.model.User;
 import net.javaguides.springboot.service.DepartmentService;
 import net.javaguides.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class UserController {
 	public String showNewEquipmentForm(@RequestParam("username") String username,
 									   @RequestParam("password") String password,
 									   HttpServletResponse response) {
-		boolean isAuthenticated = authenticateUser(username, password);
+		User user = userService.authenticateUser(username, password);
 
-		if (isAuthenticated) {
-			String userHash = UserLoginInterceptor.addAuthenticatedUser(username);
+		if (user != null) {
+			String userHash = UserLoginInterceptor.addAuthenticatedUser(user.getId(), user.getIsAdmin());
 			Cookie userIdCookie = new Cookie("userHash", userHash);
 			userIdCookie.setHttpOnly(true);
 			userIdCookie.setPath("/");
@@ -46,10 +47,6 @@ public class UserController {
 		} else {
 			return "login";
 		}
-	}
-
-	private boolean authenticateUser(String username, String password) {
-		return "admin".equals(username) && "pass123".equals(password);
 	}
 
 }
