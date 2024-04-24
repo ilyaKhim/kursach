@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Equipment Management System</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+	<h1>Equipment Management System</h1>
+	<hr>
+	<h2>Create New Equipment</h2>
+
+	<form th:action="@{/saveEquipment}" th:object="${equipment}" method="POST">
+		<div class="form-group">
+			<label for="eqName">Equipment Name:</label>
+			<input type="text" th:field="*{eqName}" placeholder="Enter equipment name" class="form-control mb-4 col-4">
+
+			<label for="serialNumber">Serial Number:</label>
+			<input type="text" th:field="*{serialNumber}" placeholder="Enter serial number" class="form-control mb-4 col-4">
+
+			<label for="purchaseDate">Purchase Date:</label>
+			<input type="date" th:field="*{purchaseDate}" class="form-control mb-4 col-4">
+
+			<label for="warrantyExpiration">Warranty Expiration:</label>
+			<input type="date" th:field="*{warrantyExpiration}" class="form-control mb-4 col-4">
+
+			<label for="eqStatus">Equipment Status:</label>
+			<input type="text" th:field="*{eqStatus}" placeholder="Enter status" class="form-control mb-4 col-4">
+
+			<label for="departmentId">Department ID:</label>
+			<input type="number" th:field="*{departmentId}" class="form-control mb-4 col-4">
+
+			<label for="supplierId">Supplier ID:</label>
+			<input type="number" th:field="*{supplierId}" class="form-control mb-4 col-4">
+
+			<label for="userId">User ID:</label>
+			<input type="number" th:field="*{userId}" class="form-control mb-4 col-4">
+
+			<button type="submit" class="btn btn-info col-2">Save Equipment</button>
+		</div>
+	</form>
+	<hr>
+	<a th:href = "@{/}">Back to Equipment List</a>
+</div>
+</body>
+</html>
