@@ -1,6 +1,5 @@
 package ru.il.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import ru.il.model.Equipment;
@@ -18,11 +17,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Autowired
 	private EquipmentRepository equipmentRepository;
-
-	@Override
-	public List<Equipment> getAllEmployees() {
-		return equipmentRepository.findAll();
-	}
 
 	@Override
 	public void saveEquipment(Equipment equipment) {
