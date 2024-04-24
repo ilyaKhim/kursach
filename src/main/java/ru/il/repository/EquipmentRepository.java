@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ru.il.model.Equipment;
 import org.springframework.stereotype.Repository;
+import ru.il.model.dao.EquipmentDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,12 +19,16 @@ import java.util.Optional;
 @Repository
 public class EquipmentRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Equipment> rowMapper = (rs, rowNum) -> {
-        Equipment equipment = new Equipment();
-        equipment.setId(rs.getInt("id"));
-        equipment.setEqName(rs.getString("eq_name"));
-        equipment.setEqStatus(rs.getString("eq_status"));
-        return equipment;
+    private final RowMapper<EquipmentDao> rowMapper = (rs, rowNum) -> {
+        EquipmentDao equipmentDao = new EquipmentDao();
+        equipmentDao.setId(rs.getInt("id"));
+        equipmentDao.setEqName(rs.getString("eq_name"));
+        equipmentDao.setSerialNumber(rs.getString("serial_number"));
+        equipmentDao.setEqStatus(rs.getString("eq_status"));
+        equipmentDao.setDepartmentName(rs.getString("dep_name"));
+        equipmentDao.setUserFirstName(rs.getString("first_name"));
+        equipmentDao.setUserLastName(rs.getString("last_name"));
+        return equipmentDao;
     };
 
     private Equipment mapRowToEquipment(ResultSet resultSet) throws SQLException {
@@ -45,13 +50,17 @@ public class EquipmentRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Page<Equipment> findAll(Pageable pageable) {
-        String sql = "SELECT id, eq_name, eq_status FROM equipments";
+    public Page<EquipmentDao> findAll(Pageable pageable) {
+        String sql = "SELECT e.id, e.eq_name, e.serial_number, e.eq_status, d.dep_name, u.first_name, u.last_name " +
+                "FROM equipments e " +
+                "JOIN departments d ON e.department_id = d.id " +
+                "JOIN users u ON e.user_id = u.id";
+//        String sql = "SELECT id, eq_name, serial_number, eq_status FROM equipments";
 
         // Add pagination
         sql += " LIMIT ? OFFSET ?";
 
-        List<Equipment> entities = jdbcTemplate.query(sql, new Object[]{pageable.getPageSize(), pageable.getOffset()}, rowMapper);
+        List<EquipmentDao> entities = jdbcTemplate.query(sql, new Object[]{pageable.getPageSize(), pageable.getOffset()}, rowMapper);
 
         // Fetch total count for pagination
         String countSql = "SELECT COUNT(*) FROM equipments";
@@ -61,12 +70,19 @@ public class EquipmentRepository {
     }
 
     public void save(Equipment equipment) {
-        String sql = "INSERT INTO equipments (eq_name, serial_number, purchase_date, warranty_expiration, eq_status, department_id, supplier_id, user_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        jdbcTemplate.update(sql, equipment.getEqName(), equipment.getSerialNumber(), equipment.getPurchaseDate(),
-                equipment.getWarrantyExpiration(), equipment.getEqStatus(), equipment.getDepartmentId(),
-                equipment.getSupplierId(), equipment.getUserId());
+        String sql;
+        if (equipment.getId() == 0) {
+            sql = "INSERT INTO equipments (eq_name, serial_number, purchase_date, warranty_expiration, eq_status, department_id, supplier_id, user_id) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql, equipment.getEqName(), equipment.getSerialNumber(), equipment.getPurchaseDate(),
+                    equipment.getWarrantyExpiration(), equipment.getEqStatus(), equipment.getDepartmentId(),
+                    equipment.getSupplierId(), equipment.getUserId());
+        } else {
+            sql = "UPDATE equipments SET eq_name = ?, serial_number = ?, purchase_date = ?, warranty_expiration = ?, eq_status = ?, department_id = ?, supplier_id = ?, user_id = ? WHERE id = ?";
+            jdbcTemplate.update(sql, equipment.getEqName(), equipment.getSerialNumber(), equipment.getPurchaseDate(),
+                    equipment.getWarrantyExpiration(), equipment.getEqStatus(), equipment.getDepartmentId(),
+                    equipment.getSupplierId(), equipment.getUserId(), equipment.getId());
+        }
     }
 
     public Optional<Equipment> findById(long id) {

@@ -11,29 +11,66 @@ public class EquipmentDao {
 
     private String serialNumber;
 
-    private Date purchaseDate;
-
-    private Date warrantyExpiration;
-
     private Object eqStatus;
 
     private String departmentName;
 
-    private String supplierName;
-
     private String userFirstName;
     private String userLastName;
 
-    public EquipmentDao(int id, String eqName, String serialNumber, Date purchaseDate, Date warrantyExpiration, Object eqStatus, String departmentName, String supplierName, String userFirstName, String userLastName) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEqName() {
+        return eqName;
+    }
+
+    public void setEqName(String eqName) {
         this.eqName = eqName;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
-        this.purchaseDate = purchaseDate;
-        this.warrantyExpiration = warrantyExpiration;
+    }
+
+    public Object getEqStatus() {
+        return eqStatus;
+    }
+
+    public void setEqStatus(Object eqStatus) {
         this.eqStatus = eqStatus;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
-        this.supplierName = supplierName;
+    }
+
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
         this.userFirstName = userFirstName;
+    }
+
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
         this.userLastName = userLastName;
     }
 }

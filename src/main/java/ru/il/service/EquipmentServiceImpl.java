@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import ru.il.model.dao.EquipmentDao;
 import ru.il.repository.EquipmentRepository;
 
 @Service
@@ -41,7 +42,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Override
-	public Page<Equipment> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+	public Page<EquipmentDao> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
 		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
 			Sort.by(sortField).descending();
 		

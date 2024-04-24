@@ -2,6 +2,7 @@ package ru.il.controller;
 
 import ru.il.config.UserLoginInterceptor;
 import ru.il.model.Equipment;
+import ru.il.model.dao.EquipmentDao;
 import ru.il.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,8 +69,8 @@ public class EquipmentController {
 			Model model) {
 		int pageSize = 5;
 		
-		Page<Equipment> page = equipmentService.findPaginated(pageNo, pageSize, sortField, sortDir);
-		List<Equipment> listEquipments = page.getContent();
+		Page<EquipmentDao> page = equipmentService.findPaginated(pageNo, pageSize, sortField, sortDir);
+		List<EquipmentDao> listEquipments = page.getContent();
 		
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPages", page.getTotalPages());
