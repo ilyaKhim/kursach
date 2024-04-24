@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static net.javaguides.springboot.config.UserLoginInterceptor.addIsAdminToForm;
+
 @Controller
 public class UserController {
 
@@ -33,7 +35,8 @@ public class UserController {
 	@PostMapping("/login")
 	public String showNewEquipmentForm(@RequestParam("username") String username,
 									   @RequestParam("password") String password,
-									   HttpServletResponse response) {
+									   HttpServletResponse response,
+									   Model model) {
 		User user = userService.authenticateUser(username, password);
 
 		if (user != null) {
@@ -42,7 +45,6 @@ public class UserController {
 			userIdCookie.setHttpOnly(true);
 			userIdCookie.setPath("/");
 			response.addCookie(userIdCookie);
-
 			return "redirect:/";
 		} else {
 			return "login";

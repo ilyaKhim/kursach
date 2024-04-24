@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserLoginInterceptor implements HandlerInterceptor {
 
     private static final Map<String, Pair<String, Byte>> authenticatedUsers = new ConcurrentHashMap<>();
-    private static final ThreadLocal<Pair<String,Byte>> currentUser = ThreadLocal.withInitial(() -> null);
+    public static final ThreadLocal<Pair<String,Byte>> currentUser = ThreadLocal.withInitial(() -> null);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -32,6 +34,11 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         Pair<String, Byte> authUser = authenticatedUsers.get(userCookie.get().getValue());
         currentUser.set(authUser);
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        currentUser.remove();
     }
 
     public static String addAuthenticatedUser(int userId, byte isAdmin) {
@@ -64,6 +71,19 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         }
 
         return hexString.toString();
+    }
+
+    public static void addIsAdminToForm(Model model) {
+        Pair<String, Byte> userInfo = currentUser.get();
+        if (userInfo != null) {
+            model.addAttribute("isAdmin", userInfo.getSecond() == 1);  // assuming '1' signifies admin
+        } else {
+            model.addAttribute("isAdmin", false);
+        }
+    }
+
+    public static boolean isCurrentUserIsAdmin() {
+        return currentUser.get().getSecond() == 1;
     }
 
 }

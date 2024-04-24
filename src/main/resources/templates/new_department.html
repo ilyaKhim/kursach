@@ -11,7 +11,7 @@
 	<hr>
 	<h2>Create New Department</h2>
 
-	<form th:action="@{/saveDepartment}" th:object="${department}" method="POST">
+	<form th:if="${isAdmin}" th:action="@{/saveDepartment}" th:object="${department}" method="POST">
 		<div class="form-group">
 			<label for="depName">Supplier Name:</label>
 			<input type="text" th:field="*{depName}" placeholder="Enter department name" class="form-control mb-4 col-4">

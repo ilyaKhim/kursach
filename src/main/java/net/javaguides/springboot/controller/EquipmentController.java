@@ -1,5 +1,6 @@
 package net.javaguides.springboot.controller;
 
+import net.javaguides.springboot.config.UserLoginInterceptor;
 import net.javaguides.springboot.model.Equipment;
 import net.javaguides.springboot.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static net.javaguides.springboot.config.UserLoginInterceptor.addIsAdminToForm;
+import static net.javaguides.springboot.config.UserLoginInterceptor.isCurrentUserIsAdmin;
 
 @Controller
 public class EquipmentController {
@@ -20,15 +24,15 @@ public class EquipmentController {
 		this.equipmentService = equipmentService;
 	}
 
-	// display list of employees
 	@GetMapping("/")
 	public String viewHomePage(Model model) {
+		addIsAdminToForm(model);
 		return findPaginated(1, "eqName", "asc", model);
 	}
 	
 	@GetMapping("/showNewEquipmentForm")
 	public String showNewEquipmentForm(Model model) {
-		// create model attribute to bind form data
+		addIsAdminToForm(model);
 		Equipment equipment = new Equipment();
 		model.addAttribute("equipment", equipment);
 		return "new_equipment";
@@ -36,27 +40,26 @@ public class EquipmentController {
 	
 	@PostMapping("/saveEquipment")
 	public String saveEmployee(@ModelAttribute("equipment") Equipment equipment) {
-		// save equipment to database
-		equipmentService.saveEquipment(equipment);
+		if (isCurrentUserIsAdmin()) {
+			equipmentService.saveEquipment(equipment);
+		}
 		return "redirect:/";
 	}
 	
 	@GetMapping("/showFormForUpdate/{id}")
 	public String showFormForUpdate(@PathVariable ( value = "id") long id, Model model) {
-		
-		// get equipment from the service
+		addIsAdminToForm(model);
 		Equipment equipment = equipmentService.getEquipmentById(id);
 		
-		// set equipment as a model attribute to pre-populate the form
 		model.addAttribute("equipment", equipment);
 		return "update_equipment";
 	}
 	
 	@GetMapping("/deleteEquipment/{id}")
 	public String deleteEmployee(@PathVariable (value = "id") long id) {
-		
-		// call delete equipment method
-		this.equipmentService.deleteEquipmentById(id);
+		if (isCurrentUserIsAdmin()) {
+			this.equipmentService.deleteEquipmentById(id);
+		}
 		return "redirect:/";
 	}
 	

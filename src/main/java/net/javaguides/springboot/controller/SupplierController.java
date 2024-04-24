@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static net.javaguides.springboot.config.UserLoginInterceptor.addIsAdminToForm;
+import static net.javaguides.springboot.config.UserLoginInterceptor.isCurrentUserIsAdmin;
+
 @Controller
 public class SupplierController {
 
@@ -24,7 +27,7 @@ public class SupplierController {
 	
 	@GetMapping("/showNewSupplierForm")
 	public String showNewEquipmentForm(Model model) {
-		// create model attribute to bind form data
+		addIsAdminToForm(model);
 		Supplier supplier = new Supplier();
 		model.addAttribute("supplier", supplier);
 		return "new_supplier";
@@ -32,8 +35,9 @@ public class SupplierController {
 	
 	@PostMapping("/saveSupplier")
 	public String saveEmployee(@ModelAttribute("supplier") Supplier supplier) {
-		// save equipment to database
-		supplierService.saveSupplier(supplier);
+		if (isCurrentUserIsAdmin()) {
+			supplierService.saveSupplier(supplier);
+		}
 		return "redirect:/";
 	}
 
