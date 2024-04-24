@@ -44,7 +44,7 @@
 					<td th:text="${equipment.eqStatus}"></td>
 					<td th:text="${equipment.serialNumber}"></td>
 					<td> <a th:href="@{/showFormForUpdate/{id}(id=${equipment.id})}" class="btn btn-primary">Update</a>
-					    <a th:href="@{/deleteEquipment/{id}(id=${equipment.id})}" class="btn btn-danger">Delete</a>
+					    <a th:if="${isAdmin}" th:href="@{/deleteEquipment/{id}(id=${equipment.id})}" class="btn btn-danger">Delete</a>
 					</td>
 				</tr>
 			</tbody>
