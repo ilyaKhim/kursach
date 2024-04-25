@@ -28,6 +28,8 @@
             <td th:text="${maintenance.description}"></td>
             <td th:text="${maintenance.issuedByFirstNameLastName}"></td>
             <td th:text="${maintenance.performedByFirstNameLastName}"></td>
+            <td> <a th:if="${isAdmin}" th:href="@{/showFormForUpdateMaintenance/{id}(id=${maintenance.id})}" class="btn btn-primary">Обновить данные</a>
+            </td>
         </tr>
         </tbody>
     </table>

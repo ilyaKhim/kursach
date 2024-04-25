@@ -10,4 +10,5 @@ public interface MaintenanceService {
 
     List<MaintenanceDao> findAll();
 
+    Maintenance getMaintenanceById(long id);
 }

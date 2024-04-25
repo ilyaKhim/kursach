@@ -1,5 +1,6 @@
 package ru.il.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.il.config.UserLoginInterceptor;
 import ru.il.model.Equipment;
 import ru.il.model.Maintenance;
@@ -49,6 +50,15 @@ public class MaintenanceController {
 			model.addAttribute("maintenances", maintenances);
 			return "view_maintenances";
 		} else return "redirect:/";
+	}
+
+	@GetMapping("/showFormForUpdateMaintenance/{id}")
+	public String showFormForUpdateMaintenance(@PathVariable( value = "id") long id, Model model) {
+		UserLoginInterceptor.addIsAdminToForm(model);
+		Maintenance maintenance = maintenanceService.getMaintenanceById(id);
+
+		model.addAttribute("maintenance", maintenance);
+		return "update_maintenance";
 	}
 
 }

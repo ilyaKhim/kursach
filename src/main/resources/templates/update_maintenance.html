@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Система управления оборудованием</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Система управления оборудованием</h1>
+    <hr>
+    <h2>Update Maintenance</h2>
+
+    <form th:action="@{/saveMaintenance}" th:object="${maintenance}" method="POST">
+        <div class="form-group">
+            <input type="hidden" th:field="*{id}" />
+
+            <label for="equipmentId">Equipment ID:</label>
+            <input type="number" th:field="*{equipmentId}" class="form-control mb-4 col-4"/>
+
+            <label for="createDate">Create Date:</label>
+            <input type="date" th:field="*{createDate}" class="form-control mb-4 col-4" />
+
+            <label for="description">Description:</label>
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4" />
+
+            <label for="issuedBy">Issued By:</label>
+            <input type="number" th:field="*{issuedBy}" class="form-control mb-4 col-4" />
+
+            <label for="performedBy">Performed By:</label>
+            <input type="number" th:field="*{performedBy}" class="form-control mb-4 col-4" />
+
+            <button type="submit" class="btn btn-info col-2">Обновление информации о техническом обслуживании</button>
+        </div>
+    </form>
+    <hr>
+    <a th:href="@{/}">На главную</a>
+</div>
+</body>
+</html>
