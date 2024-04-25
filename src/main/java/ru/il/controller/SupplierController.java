@@ -1,11 +1,15 @@
 package ru.il.controller;
 
+import ru.il.model.Department;
 import ru.il.model.Supplier;
 import ru.il.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.il.service.SupplierServiceImpl;
+
+import java.util.List;
 
 import static ru.il.config.UserLoginInterceptor.addIsAdminToForm;
 import static ru.il.config.UserLoginInterceptor.isCurrentUserIsAdmin;
@@ -34,6 +38,16 @@ public class SupplierController {
 			supplierService.saveSupplier(supplier);
 		}
 		return "redirect:/";
+	}
+
+	@GetMapping("/showAllSuppliers")
+	public String showAllDepartments(Model model) {
+		if (isCurrentUserIsAdmin()) {
+			addIsAdminToForm(model);
+			List<Supplier> suppliers = supplierService.findAll();
+			model.addAttribute("suppliers", suppliers);
+			return "view_suppliers";
+		} else return "redirect:/";
 	}
 
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список поставщиков оборудования</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Поставщики</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название подразделения</th>
+            <th>Адрес</th>
+            <th>Помещение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="supplier : ${suppliers}">
+            <td th:text="${supplier.id}"></td>
+            <td th:text="${supplier.companyName}"></td>
+            <td th:text="${supplier.contactInfo}"></td>
+            <td th:text="${supplier.address}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href = "@{/}">На главную</a>
+</div>
+</body>
+</html>
