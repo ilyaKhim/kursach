@@ -85,6 +85,7 @@
 	<a th:href = "@{/showAllMaintenances}" class="btn btn-primary btn-sm mb-3"> Просмотреть все заявки </a>
 	<a th:if="${isAdmin}" th:href = "@{/showAllSuppliers}" class="btn btn-primary btn-sm mb-3"> Просмотреть всех поставщиков </a>
 	<a th:if="${isAdmin}" th:href = "@{/showAllDepartments}" class="btn btn-primary btn-sm mb-3"> Прсмотреть все подразделения </a>
+		<a th:if="${isAdmin}" th:href = "@{/registerEmployee}" class="btn btn-primary btn-sm mb-3"> Зарегистрировать сотрудника </a>
 	</div>
 </body>
 </html>
